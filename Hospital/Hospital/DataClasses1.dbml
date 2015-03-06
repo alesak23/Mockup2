@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="data" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\data.mdf;Integrated Security=True" SettingsObjectName="Hospital.Properties.Settings" SettingsPropertyName="dataConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Affiliated_With" Member="Affiliated_Withs">
+    <Type Name="Affiliated_With">
+      <Column Name="Physician" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Department" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PrimaryAffiliation" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Department_Affiliated_With" Member="Department1" ThisKey="Department" OtherKey="DepartmentID" Type="Department" IsForeignKey="true" />
+      <Association Name="Physician_Affiliated_With" Member="Physician1" ThisKey="Physician" OtherKey="EmployeeID" Type="Physician" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Undergoes" Member="Undergoes">
+    <Type Name="Undergoe">
+      <Column Name="Patient" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Procedures" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Stay" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DateUndergoes" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Physician" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AssistingNurse" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Nurse_Undergoe" Member="Nurse" ThisKey="AssistingNurse" OtherKey="EmployeeID" Type="Nurse" IsForeignKey="true" />
+      <Association Name="Patient_Undergoe" Member="Patient1" ThisKey="Patient" OtherKey="SSN" Type="Patient" IsForeignKey="true" />
+      <Association Name="Physician_Undergoe" Member="Physician1" ThisKey="Physician" OtherKey="EmployeeID" Type="Physician" IsForeignKey="true" />
+      <Association Name="Procedure_Undergoe" Member="Procedure" ThisKey="Procedures" OtherKey="Code" Type="Procedure" IsForeignKey="true" />
+      <Association Name="Stay_Undergoe" Member="Stay1" ThisKey="Stay" OtherKey="StayID" Type="Stay" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Appointment" Member="Appointments">
+    <Type Name="Appointment">
+      <Column Name="AppointmentID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Patient" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PrepNurse" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Physician" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Start" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="EndOfApp" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ExaminationRoom" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Association Name="Appointment_Prescribe" Member="Prescribes" ThisKey="AppointmentID" OtherKey="Appointment" Type="Prescribe" />
+      <Association Name="Nurse_Appointment" Member="Nurse" ThisKey="PrepNurse" OtherKey="EmployeeID" Type="Nurse" IsForeignKey="true" />
+      <Association Name="Patient_Appointment" Member="Patient1" ThisKey="Patient" OtherKey="SSN" Type="Patient" IsForeignKey="true" />
+      <Association Name="Physician_Appointment" Member="Physician1" ThisKey="Physician" OtherKey="EmployeeID" Type="Physician" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Block" Member="Blocks">
+    <Type Name="Block">
+      <Column Name="BlockFloor" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BlockCode" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Block_On_Call" Member="On_Calls" ThisKey="BlockFloor,BlockCode" OtherKey="BlockFloor,BlockCode" Type="On_Call" />
+      <Association Name="Block_Room" Member="Rooms" ThisKey="BlockFloor,BlockCode" OtherKey="BlockFloor,BlockCode" Type="Room" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Department" Member="Departments">
+    <Type Name="Department">
+      <Column Name="DepartmentID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Head" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Department_Affiliated_With" Member="Affiliated_Withs" ThisKey="DepartmentID" OtherKey="Department" Type="Affiliated_With" />
+      <Association Name="Physician_Department" Member="Physician" ThisKey="Head" OtherKey="EmployeeID" Type="Physician" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Medication" Member="Medications">
+    <Type Name="Medication">
+      <Column Name="Code" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Brand" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="Medication_Prescribe" Member="Prescribes" ThisKey="Code" OtherKey="Medication" Type="Prescribe" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Nurse" Member="Nurses">
+    <Type Name="Nurse">
+      <Column Name="EmployeeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Position" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Registered" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="SSN" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Nurse_Undergoe" Member="Undergoes" ThisKey="EmployeeID" OtherKey="AssistingNurse" Type="Undergoe" />
+      <Association Name="Nurse_Appointment" Member="Appointments" ThisKey="EmployeeID" OtherKey="PrepNurse" Type="Appointment" />
+      <Association Name="Nurse_On_Call" Member="On_Calls" ThisKey="EmployeeID" OtherKey="Nurse" Type="On_Call" />
+    </Type>
+  </Table>
+  <Table Name="dbo.On_Call" Member="On_Calls">
+    <Type Name="On_Call">
+      <Column Name="Nurse" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BlockFloor" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BlockCode" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="OnCallStart" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="OnCallEnd" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Block_On_Call" Member="Block" ThisKey="BlockFloor,BlockCode" OtherKey="BlockFloor,BlockCode" Type="Block" IsForeignKey="true" />
+      <Association Name="Nurse_On_Call" Member="Nurse1" ThisKey="Nurse" OtherKey="EmployeeID" Type="Nurse" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Patient" Member="Patients">
+    <Type Name="Patient">
+      <Column Name="SSN" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Address" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="InsuranceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PCP" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Patient_Undergoe" Member="Undergoes" ThisKey="SSN" OtherKey="Patient" Type="Undergoe" />
+      <Association Name="Patient_Appointment" Member="Appointments" ThisKey="SSN" OtherKey="Patient" Type="Appointment" />
+      <Association Name="Patient_Prescribe" Member="Prescribes" ThisKey="SSN" OtherKey="Patient" Type="Prescribe" />
+      <Association Name="Patient_Stay" Member="Stays" ThisKey="SSN" OtherKey="Patient" Type="Stay" />
+      <Association Name="Physician_Patient" Member="Physician" ThisKey="PCP" OtherKey="EmployeeID" Type="Physician" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Physician" Member="Physicians">
+    <Type Name="Physician">
+      <Column Name="EmployeeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Position" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="SSN" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Physician_Affiliated_With" Member="Affiliated_Withs" ThisKey="EmployeeID" OtherKey="Physician" Type="Affiliated_With" />
+      <Association Name="Physician_Undergoe" Member="Undergoes" ThisKey="EmployeeID" OtherKey="Physician" Type="Undergoe" />
+      <Association Name="Physician_Appointment" Member="Appointments" ThisKey="EmployeeID" OtherKey="Physician" Type="Appointment" />
+      <Association Name="Physician_Department" Member="Departments" ThisKey="EmployeeID" OtherKey="Head" Type="Department" />
+      <Association Name="Physician_Patient" Member="Patients" ThisKey="EmployeeID" OtherKey="PCP" Type="Patient" />
+      <Association Name="Physician_Prescribe" Member="Prescribes" ThisKey="EmployeeID" OtherKey="Physician" Type="Prescribe" />
+      <Association Name="Physician_Trained_In" Member="Trained_Ins" ThisKey="EmployeeID" OtherKey="Physician" Type="Trained_In" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Prescribes" Member="Prescribes">
+    <Type Name="Prescribe">
+      <Column Name="Physician" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Patient" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Medication" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Appointment" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Dose" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="Appointment_Prescribe" Member="Appointment1" ThisKey="Appointment" OtherKey="AppointmentID" Type="Appointment" IsForeignKey="true" />
+      <Association Name="Medication_Prescribe" Member="Medication1" ThisKey="Medication" OtherKey="Code" Type="Medication" IsForeignKey="true" />
+      <Association Name="Patient_Prescribe" Member="Patient1" ThisKey="Patient" OtherKey="SSN" Type="Patient" IsForeignKey="true" />
+      <Association Name="Physician_Prescribe" Member="Physician1" ThisKey="Physician" OtherKey="EmployeeID" Type="Physician" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Procedures" Member="Procedures">
+    <Type Name="Procedure">
+      <Column Name="Code" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Cost" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Association Name="Procedure_Undergoe" Member="Undergoes" ThisKey="Code" OtherKey="Procedures" Type="Undergoe" />
+      <Association Name="Procedure_Trained_In" Member="Trained_Ins" ThisKey="Code" OtherKey="Treatment" Type="Trained_In" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Room" Member="Rooms">
+    <Type Name="Room">
+      <Column Name="RoomNumber" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RoomType" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="BlockFloor" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BlockCode" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Unavailable" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Room_Stay" Member="Stays" ThisKey="RoomNumber" OtherKey="Room" Type="Stay" />
+      <Association Name="Block_Room" Member="Block" ThisKey="BlockFloor,BlockCode" OtherKey="BlockFloor,BlockCode" Type="Block" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Stay" Member="Stays">
+    <Type Name="Stay">
+      <Column Name="StayID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Patient" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Room" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StayStart" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="StayEnd" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Stay_Undergoe" Member="Undergoes" ThisKey="StayID" OtherKey="Stay" Type="Undergoe" />
+      <Association Name="Patient_Stay" Member="Patient1" ThisKey="Patient" OtherKey="SSN" Type="Patient" IsForeignKey="true" />
+      <Association Name="Room_Stay" Member="Room1" ThisKey="Room" OtherKey="RoomNumber" Type="Room" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Trained_In" Member="Trained_Ins">
+    <Type Name="Trained_In">
+      <Column Name="Physician" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Treatment" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CertificationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="CertificationExpires" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Physician_Trained_In" Member="Physician1" ThisKey="Physician" OtherKey="EmployeeID" Type="Physician" IsForeignKey="true" />
+      <Association Name="Procedure_Trained_In" Member="Procedure" ThisKey="Treatment" OtherKey="Code" Type="Procedure" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
