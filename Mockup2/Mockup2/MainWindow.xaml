@@ -1,0 +1,53 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Mockup2.MainWindow"
+        Title="MainWindow" Height="650" Width="525">
+    <TabControl>
+        <TabItem Header="Basic">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0"><Run Text="graf stavu"/></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="0"><Run Text="aktualizovat stav"/></TextBlock>
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0"><Run Text="vlozit prijem"/></TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="1"><Run Text="vlozit vydej"/></TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="2" TextWrapping="Wrap"><Run Text="zbyvajici expenditures"/></TextBlock>
+                </Grid>
+                <TextBlock Grid.Row="3" Grid.Column="0"><Run Text="prevest penize mezi ucty"/></TextBlock>
+            </Grid>
+
+        </TabItem>
+
+        <TabItem Header="Expenditures">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" TextWrapping="Wrap"><Run Text="graf budoucich vydaju, obsahuje -ocekavany stav na ucte -co dal?"/></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="Wrap"><Run Text="automaticky odhad zivotnich nakladu, zalozeno na vydajich za poslednich par mesicu. ukazat taky nejdulezitejsi polozky, ktere to jsou."/></TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="0" TextWrapping="Wrap"><Run Text="ukazat ocekavane prijmy a moznost jejich zmeny - pomoci &quot;prijmove udalosti&quot; v budoucnu"/></TextBlock>
+            </Grid>
+
+        </TabItem>
+
+        <TabItem Header="Planning"/>
+
+        <TabItem Header="Options"/>
+
+
+    </TabControl>
+</Window>
