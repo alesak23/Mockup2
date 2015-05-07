@@ -20,9 +20,42 @@ namespace Mockup2
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<User> items;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            items = new List<User>();
+            items.Add(new User() { Name = "John Doe", Age = 42, Mail = "john@doe-family.com" });
+            items.Add(new User() { Name = "Jane Doe", Age = 39, Mail = "jane@doe-family.com" });
+            items.Add(new User() { Name = "Sammy Doe", Age = 7, Mail = "sammy.doe@gmail.com" });
+
+            //lvUsers.ItemsSource = items;
+            datag.ItemsSource = items;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in items)
+            {
+                Console.WriteLine(item);
+            }
+        }
+    }
+
+
+    public class User
+    {
+        public string Name { get; set; }
+
+        public int Age { get; set; }
+
+        public string Mail { get; set; }
+
+        public override string ToString()
+        {
+            return Name + " " + Age + " " + Mail;
         }
     }
 }
